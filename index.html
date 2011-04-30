@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
-<meta name="generator" content="rst2slides 0.1" /><title>Myhdl, de Python al silicio</title>
+<meta name="generator" content="rst2slides 0.1" /><title>MyHDL, de Python al silicio</title>
 <link rel="stylesheet" href="ui/styles.css" />
 <link rel="stylesheet" href="ui/pygments_style.css" />
 <link rel="stylesheet" href="ui/user.css" />
@@ -24,9 +24,9 @@
 <section>
 <hgroup>
     <h1>
-Myhdl, de Python al silicio    </h1>
+MyHDL, de Python al silicio    </h1>
 </hgroup>
-<img alt="img/Afiche.jpg" class="align-right" src="img/Afiche.jpg" />
+<img alt="img/Afiche.png" class="align-right" src="img/Afiche.png" />
 <div class="line-block">
 <div class="line">por Martín Gaitán</div>
 <div class="line"><br /></div>
@@ -43,7 +43,7 @@ El desafío    </h1>
 <li>Gente que sabe de hardware pero no sabe Python (mis cumpas)</li>
 <li>Gente que sabe de Python (mucho!) pero no de hardware</li>
 <li>Yo, que no sé casi nada de nada</li>
-<li>En una charla de 25 minutos</li>
+<li>En una charla de 30 minutos</li>
 </ul>
   </section>
 
@@ -52,7 +52,7 @@ El desafío    </h1>
     <h1>
 A modo de intro: Dónde estamos?    </h1>
 </hgroup>
-<img alt="img/esta-aqui.jpg" class="align-right" src="img/esta-aqui.jpg" />
+<img alt="img/esta_aqui.jpg" class="align-right" src="img/esta_aqui.jpg" />
 <ul class="incremental">
 <li><p class="first">Arduino &gt; uControladores &gt; microprocesadores...</p>
 <blockquote>
@@ -65,17 +65,10 @@ A modo de intro: Dónde estamos?    </h1>
 </li>
 <li><p class="first">Pero... ¿cómo se <strong>diseña</strong> un micro?</p>
 <blockquote>
-<ul>
-<li><p class="first">Con ustedes los <a href="#id1"><span class="problematic" id="id2">:abbr:`HDL (Hardware Description Language)`</span></a> !</p>
-<div class="system-message" id="id1">
-<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">myhdl.rst</tt>, line 40); <em><a href="#id2">backlink</a></em></p>
-<p>Unknown interpreted text role &quot;abbr&quot;.</p>
-</div>
-</li>
-<li><p class="first">Electrónica digital a través software</p>
-</li>
-<li><p class="first">VHDL, Verilog son los más típicos</p>
-</li>
+<ul class="simple">
+<li>Con ustedes los <strong>HDL</strong> (Hardware Description Language)</li>
+<li>Electrónica digital a través software</li>
+<li>VHDL y Verilog son los más típicos</li>
 </ul>
 </blockquote>
 </li>
@@ -119,10 +112,206 @@ según la ocasión</p>
 <section>
 <hgroup>
     <h1>
-The &quot;hard&quot; way    </h1>
+Y qué corno es MyHDL ?    </h1>
+</hgroup>
+<img alt="img/myhdl_logo_256.png" class="align-right" src="img/myhdl_logo_256.png" />
+<ul class="incremental simple">
+<li>Es un framework HDL en Python</li>
+<li>Incluye tipos de datos, helpers, conversores y un simulador</li>
+<li>Permite unificar algoritmo, RTL y verificación en un mismo entorno!</li>
+<li>Convierte (con ciertas restricciones) a VHDL o Verilog (sintetizable)</li>
+<li>Permite cosimular Verilog</li>
+<li>Gratis</li>
+<li>Libre (LGPL)</li>
+</ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Un multiplexor en VHDL: The <em>hard</em> way    </h1>
+</hgroup>
+<img alt="img/mux.png" class="align-right" src="img/mux.png" />
+<pre class="literal-block">
+library ieee ;
+use ieee . std logic 1164 . all ;
+
+entity mux is
+    port (
+    a, b : in std logic vector (3 downto 0);
+    s : in std logic ;
+    o : out std logic vector (3 downto 0));
+end mux;
+architecture behavior of mux is
+begin  behavior
+    o &lt;= a when s = '0' else b;
+end behavior
+</pre>
+<ul class="simple">
+<li>Requiere declarar la &quot;entidad&quot; (entradas y salidas)</li>
+<li>Tipado estático: requiere declarar tipo de entradas</li>
+<li>Verbósico y no muy ortogonal</li>
+</ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Myhdl's way    </h1>
+</hgroup>
+<img alt="img/mux.png" class="align-right" src="img/mux.png" />
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;En IPython&quot;</span> <span class="c"># f12</span>
+</pre></div>
+<ul class="simple">
+<li>La entidad se determina por introspección (cuando se instancia)</li>
+<li>Python es dinámico ;-)</li>
+<li><em>Simple is better than complex</em>!</li>
+</ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Facherazo, pero explicalo    </h1>
+</hgroup>
+<ul class="incremental simple">
+<li>&quot;módulo&quot; (bloque) de HW =&gt; función Python: <tt class="docutils literal">mux</tt></li>
+<li>En una función interna se define el comportamiento: <tt class="docutils literal">logic</tt></li>
+<li>Se decora con magia (<tt class="docutils literal">&#64;always_comb</tt>) y se vuelve un generador<ul class="incremental">
+<li>Los generadores guardan un <strong>estado</strong> interno</li>
+<li>Esto permite la simulación</li>
+<li>El decorador determina el tipo de sensibilidad. Predefinidos:<ul>
+<li><tt class="docutils literal">&#64;always_comb</tt> cuando cambie cualquier señal de entrada</li>
+<li><tt class="docutils literal">&#64;always</tt>: cuando cambie las que le indiquemos</li>
+<li><tt class="docutils literal">&#64;instance</tt>: generador <em>adhoc</em> (se usa en testbench)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Bueno, enchufemos!    </h1>
+</hgroup>
+<ul class="incremental">
+<li><p class="first">Y cómo echufamos? <tt class="docutils literal">Signal</tt> (a.k.a &quot;cablecitos&quot;)</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">bus</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bus</span><span class="o">.</span><span class="n">val</span>
+<span class="mf">0</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bus</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mf">1</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</li>
+<li><p class="first">Pero el HW tiene límites físicos ¿cuántos bits tiene ese bus?</p>
+</li>
+</ul>
+<blockquote class="incremental">
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">val</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">15</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="mf">4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">bus</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</pre></div>
+</blockquote>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Ahora sí, enchufemos!    </h1>
 </hgroup>
 <ul class="simple">
-<li></li>
+<li>Hagamos un <em>testbench</em></li>
+</ul>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">codigo</span><span class="p">()</span> <span class="c">#IPython</span>
+</pre></div>
+<ul class="simple">
+<li>y simulemos!</li>
+</ul>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="err">!</span><span class="n">python</span> <span class="n">ejemplo1</span><span class="o">.</span><span class="n">py</span> <span class="c">#IPython</span>
+</pre></div>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Pero se verifica con prints?    </h1>
+</hgroup>
+<ul class="simple">
+<li>Un print sofisticado: generar formas de onda (<em>.vcd</em>)</li>
+</ul>
+<div class="highlight"><pre><span class="n">tb_4_sim</span> <span class="o">=</span> <span class="n">traceSignals</span><span class="p">(</span><span class="n">testBench</span><span class="p">)</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">tb_4_sim</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mf">20</span><span class="p">)</span>
+</pre></div>
+<p>Veamoslo:</p>
+<div class="highlight"><pre>gtkwave testBench.vcd
+</pre></div>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Pero mejor es hacer test de verdad!    </h1>
+</hgroup>
+<ul class="simple">
+<li><tt class="docutils literal">unittest</tt> querido, el pueblo está contigo</li>
+</ul>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">test</span><span class="p">()</span> <span class="c">#Ipython</span>
+</pre></div>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Convirtiendo pa'sintetizar    </h1>
+</hgroup>
+<ul class="simple">
+<li>A VHDL</li>
+</ul>
+<div class="highlight"><pre><span class="n">mux_inst</span> <span class="o">=</span> <span class="n">toVHDL</span><span class="p">(</span><span class="n">mux</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">I0</span><span class="p">,</span> <span class="n">I1</span><span class="p">)</span>
+</pre></div>
+<ul class="simple">
+<li>A Verilog</li>
+</ul>
+<div class="highlight"><pre><span class="n">mux_inst</span> <span class="o">=</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">mux</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">I0</span><span class="p">,</span> <span class="n">I1</span><span class="p">)</span>
+</pre></div>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Conclusiones    </h1>
+</hgroup>
+<ul class="incremental">
+<li><p class="first">MyHDL es una opción seria</p>
+<ul class="simple">
+<li>... aunque su nombre indique lo contrario</li>
+</ul>
+</li>
+<li><p class="first">Algoritmia, RTL, simulación y test: Python FTW!</p>
+</li>
+<li><p class="first">La inferencia de patrones para conversion es pura magia</p>
+</li>
+<li><p class="first">Unittests (y TDD) : diseño de hardware ágil y bien</p>
+</li>
+<li><p class="first">Le debo mi última materia: hice un procesador MIPS en 3 semanas</p>
+<blockquote>
+<p><a class="reference external" href="https://github.com/nqnwebs/pymips">https://github.com/nqnwebs/pymips</a></p>
+</blockquote>
+</li>
+</ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+La hora referí    </h1>
+</hgroup>
+<ul class="simple">
+<li>Gracias, y vamo' a comer</li>
 </ul>
   </section>
 </div>

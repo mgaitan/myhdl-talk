@@ -8,7 +8,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 /* Core Styles */
 html{ font-size:100%; overflow: hidden; }
-body { font-size: 62.5%; line-height: 1.5; font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif; color: #333; }
+body { font-size: 62.5%; line-height: 1.2; font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif; color: #333; }
 input, select, textarea { font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif; font-size: 1em; }
 :focus { outline: 1px; }
 strong{ font-weight:bold; }
@@ -18,7 +18,7 @@ img { display: block; }
 a img { border: none; } 
 cite { font-style: normal; } 
 code { background: #ececec; padding: 0 3px; }
-blockquote { margin:0 0 24px 32px; border-left:7px solid #ececec; padding-left:16px; }
+blockquote { margin:0 0 24px 32px; border-left:7px solid #ececec; padding-left:16px; text-decoration: italic; }
 blockquote p { margin:0; }
 .center { text-align: center; margin: 0 auto; }
 .left { float: left; }

@@ -8,4 +8,36 @@
 body{ background:#f5f6f6; }
 #deck h1 { font-family: 'Candal', Arial; font-size:50px; text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8); }
 #deck h2 { font-family: 'Candal', Arial; font-size: 30px; text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8); }
-#deck p, #deck li { font-family: Arial; font-size:20px; text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8); }
+#deck p, #deck li { font-family: Arial; font-size:35px; text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8); margin-bottom: 0.5em}
+
+.line-block { font-size: 4em }
+.simple { font-size: 3.5em }
+
+img.align-left, .figure.align-left, object.align-left {
+    clear: left;
+    float: left;
+    margin-right: 1em;
+}
+img.align-right, .figure.align-right, object.align-right {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+}
+img.align-center, .figure.align-center, object.align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.align-left {
+    text-align: left;
+}
+.align-center {
+    clear: both;
+    text-align: center;
+}
+.align-right {
+    text-align: right;
+}
+div.align-right {
+    text-align: left;
+}

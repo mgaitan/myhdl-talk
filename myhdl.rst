@@ -251,9 +251,9 @@ Y simulemos!
     20    |15    |112   |1     |112   
     <class 'myhdl._SuspendSimulation'>: Simulated 20 timesteps
 
- 
-Pero se verifica con prints?
-****************************
+
+Entonces se verifica con prints?
+********************************
 
 - Un print sofisticado: generar formas de onda (*.vcd*) 
 
@@ -276,7 +276,25 @@ Pero mejor es hacer test de verdad!
 
 .. code-block:: python
 
-    >>> test() #Ipython
+    class MuxTest(unittest.TestCase):
+            
+        def setUp(self):
+            self.channels = [Signal(intbv(random.randint(0, 255))[32:]) for i in range(2)]
+            self.O = Signal(intbv(0)[32:])
+            self.S = Signal(intbv(0, min=0, max=2))
+            self.mux_inst = mux(self.S, self.O, self.channels[0], self.channels[1])
+
+        def test_starts_in_channel_0(self):
+            yield delay(1)
+            Simulation( self.mux_inst )
+            self.assertEqual(self.channels[0].val, self.O.val)  
+
+        def test_channel_1_when_select_is_1(self):
+            self.S.next = intbv(1)
+            yield delay(1)
+            Simulation( self.mux_inst )
+            self.assertEqual(self.channels[1].val, self.O.val)  
+
 
 Convirtiendo pa'sintetizar
 **************************

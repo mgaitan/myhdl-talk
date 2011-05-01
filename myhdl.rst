@@ -136,7 +136,20 @@ Myhdl's way
 
 .. code-block:: python
 
-   >>> "En IPython" # f12
+   def mux(s, o, a, b):
+    """2-channels N-bits multiplexor
+
+    a, b: generic bits input channels
+    o: output vector
+    s: channel selector"""
+
+    @always_comb
+    def logic():
+        if s == 0:
+            o.next = a
+        else:
+            o.next = b
+    return logic
 
 - La entidad se determina por introspección (cuando se instancia)
 - Python es dinámico ;-)

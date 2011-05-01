@@ -182,7 +182,20 @@ end behavior
 Myhdl's way    </h1>
 </hgroup>
 <img alt="img/mux.png" class="align-right" src="img/mux.png" />
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;En IPython&quot;</span> <span class="c"># f12</span>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">mux</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+ <span class="sd">&quot;&quot;&quot;2-channels N-bits multiplexor</span>
+
+<span class="sd"> a, b: generic bits input channels</span>
+<span class="sd"> o: output vector</span>
+<span class="sd"> s: channel selector&quot;&quot;&quot;</span>
+
+ <span class="nd">@always_comb</span>
+ <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
+     <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mf">0</span><span class="p">:</span>
+         <span class="n">o</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">a</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="n">o</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">b</span>
+ <span class="k">return</span> <span class="n">logic</span>
 </pre></div>
 <ul class="simple">
 <li>La entidad se determina por introspección (cuando se instancia)</li>

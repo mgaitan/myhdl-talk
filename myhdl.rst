@@ -193,16 +193,54 @@ Ahora sí, enchufemos!
 
 .. code-block:: python
  
-    >>> codigo() #IPython
+    def testBench():
 
-- y simulemos!
+    I0, I1 = [Signal(intbv(random.randint(0, 255))[32:]) for i in range(2)]
+    O = Signal(intbv(0)[32:])
+    S = Signal(intbv(0, min=0, max=2))
+   
+    mux_inst = mux (S, O, I0, I1)
+ 
+    @instance
+    def stimulus():
+        header =  "%-6s|%-6s|%-6s|%-6s|%-6s" % ('time', 'I0', 'I1', 'S', 'O')
+        print header + '\n' + '-' * len(header)
+        while True:
+            S.next = intbv(random.randint(0, 1))[1:]
+            I0.next, I1.next = [intbv(random.randint(0, 255))[32:] for i in range(2)]
+            print "%-6s|%-6s|%-6s|%-6s|%-6s" % (now(), I0, I1, S, O)
+            yield delay(5)
+
+    return mux_inst, stimulus
+
+
+Y simulemos!
+************
 
 .. code-block:: python
  
-   >>> !python ejemplo1.py #IPython
+    sim = Simulation(testBench())
+    sim.run(20)        
+
+- ``Simulation`` recibe como parámetros los "módulos"
+- con el método ``run`` se ejecuta, indicando cuantos ciclos (timesteps) se correrá 
+- El resultado es:
+
+.. code-block:: python
+
+
+    time  |I0    |I1    |S     |O     
+    ----------------------------------
+    0     |35    |96    |0     |0     
+    5     |164   |254   |1     |254   
+    10    |132   |60    |0     |132   
+    15    |32    |138   |0     |32    
+    20    |15    |112   |1     |112   
+    <class 'myhdl._SuspendSimulation'>: Simulated 20 timesteps
+
  
-Se verifica con prints?
-************************
+Pero se verifica con prints?
+****************************
 
 - Un print sofisticado: generar formas de onda (*.vcd*) 
 
@@ -212,11 +250,11 @@ Se verifica con prints?
     sim = Simulation(tb_4_sim)
     sim.run(20)
 
-Veamoslo:
+- Se pueden leer con GTKWave
 
-.. code-block:: bash
+  .. image:: img/vcd.png
+     :align: center   
 
-   gtkwave testBench.vcd
 
 Pero mejor es hacer test de verdad!
 ***********************************
@@ -251,9 +289,9 @@ Conclusiones
 
   - ... aunque su nombre no ayude a transmitirlo
 
-- Algoritmia, RTL, simulación y test: Python FTW!
+- Algoritmia, RTL, simulación y tests: Python FTW!
 - La inferencia de patrones para conversion es pura magia
-- Unittests (y TDD) : diseño de hardware ágil y bien
+- Unittests (y TDD) => diseño de hardware ágil y bien
 - Le debo mi última materia: hice un procesador MIPS en 3 semanas
 
     https://github.com/nqnwebs/pymips
@@ -273,5 +311,5 @@ Preguntas ?
 La hora referí
 **************
 
-- Gracias, y vamo' a comer
+- Gracias, y vamo'a comer
 

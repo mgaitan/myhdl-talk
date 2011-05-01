@@ -31,7 +31,7 @@ MyHDL, de Python al silicio    </h1>
 <div class="line">por Martín Gaitán</div>
 <div class="line"><br /></div>
 <div class="line">PyDay Córdoba 2011</div>
-<div class="line">Córdoba, 30 de abril de 2010</div>
+<div class="line"><a class="reference external" href="https://github.com/nqnwebs/myhdl-talk">https://github.com/nqnwebs/myhdl-talk</a></div>
 </div>
 </section>
 <section>
@@ -39,11 +39,16 @@ MyHDL, de Python al silicio    </h1>
     <h1>
 El desafío    </h1>
 </hgroup>
-<ul class="incremental simple">
-<li>Gente que sabe de hardware pero no sabe Python (mis cumpas)</li>
-<li>Gente que sabe de Python (mucho!) pero no de hardware</li>
-<li>Yo, que no sé casi nada de nada</li>
-<li>En una charla de 30 minutos</li>
+<ul class="incremental">
+<li><p class="first">Gente que sabe de hardware pero no sabe Python (mis cumpas)</p>
+</li>
+<li><p class="first">Gente que sabe de Python (mucho!) pero no de hardware</p>
+</li>
+<li><p class="first">Yo, que sólo sé que no sé nada</p>
+</li>
+<li><p class="first">En una charla de 25 minutos</p>
+<img alt="img/miedo.jpg" class="align-center" src="img/miedo.jpg" />
+</li>
 </ul>
   </section>
 
@@ -54,12 +59,12 @@ A modo de intro: Dónde estamos?    </h1>
 </hgroup>
 <img alt="img/esta_aqui.jpg" class="align-right" src="img/esta_aqui.jpg" />
 <ul class="incremental">
-<li><p class="first">Arduino &gt; uControladores &gt; microprocesadores...</p>
+<li><p class="first"><tt class="docutils literal">programar HW != diseñar HW</tt></p>
 <blockquote>
 <ul class="simple">
-<li>Funcionamiento y prestaciones predefinidas.</li>
-<li>Arduino: se programa sobre un uC que tiene un core.</li>
-<li>ASM es un lenguaje de &quot;alto nivel&quot;!</li>
+<li>Hw con Funcionamiento y prestaciones predefinidas.</li>
+<li>Ejemplo: Arduino se programa sobre un uC que tiene un firmware.</li>
+<li>Desde el diseño el ASM es un lenguaje de &quot;alto nivel&quot;!</li>
 </ul>
 </blockquote>
 </li>
@@ -80,8 +85,11 @@ A modo de intro: Dónde estamos?    </h1>
     <h1>
 Software? No era hardware?    </h1>
 </hgroup>
-<ul>
-<li><p class="first">Hardware programable, FPGAs : Field <strong>Programmable</strong> Gates Array</p>
+<ul class="incremental">
+<li><p class="first">FPGAs : Field <strong>Programmable</strong> Gates Array</p>
+<ul class="simple">
+<li>Hardware &quot;metaprogramable&quot;,</li>
+</ul>
 <blockquote class="epigraph">
 <p>El camaleón mamá,
 el camaleón,
@@ -90,8 +98,6 @@ según la ocasión</p>
 <p class="attribution">&mdash;Chico Novarro</p>
 </blockquote>
 </li>
-</ul>
-<ul class="incremental">
 <li><p class="first">Originalmente sólo para prototipar.</p>
 <blockquote>
 <ul class="simple">
@@ -107,6 +113,14 @@ según la ocasión</p>
 </blockquote>
 </li>
 </ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+La burocracia del Hardware    </h1>
+</hgroup>
+<img alt="img/flow.jpg" class="align-center" src="img/flow.jpg" />
   </section>
 
 <section>
@@ -172,7 +186,7 @@ Myhdl's way    </h1>
 <section>
 <hgroup>
     <h1>
-Facherazo, pero explicalo    </h1>
+Ok, pero explicalo    </h1>
 </hgroup>
 <ul class="incremental simple">
 <li>&quot;módulo&quot; (bloque) de HW =&gt; función Python: <tt class="docutils literal">mux</tt></li>
@@ -237,7 +251,7 @@ Ahora sí, enchufemos!    </h1>
 <section>
 <hgroup>
     <h1>
-Pero se verifica con prints?    </h1>
+Se verifica con prints?    </h1>
 </hgroup>
 <ul class="simple">
 <li>Un print sofisticado: generar formas de onda (<em>.vcd</em>)</li>
@@ -288,7 +302,7 @@ Conclusiones    </h1>
 <ul class="incremental">
 <li><p class="first">MyHDL es una opción seria</p>
 <ul class="simple">
-<li>... aunque su nombre indique lo contrario</li>
+<li>... aunque su nombre no ayude a transmitirlo</li>
 </ul>
 </li>
 <li><p class="first">Algoritmia, RTL, simulación y test: Python FTW!</p>
@@ -303,6 +317,19 @@ Conclusiones    </h1>
 </blockquote>
 </li>
 </ul>
+  </section>
+
+<section>
+<hgroup>
+    <h1>
+Preguntas ?    </h1>
+</hgroup>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preguntas</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">responder</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">NiPutaIdea</span><span class="p">:</span>
+        <span class="n">sonreir_y_hacerse_el_gil</span><span class="p">()</span>
+</pre></div>
   </section>
 
 <section>

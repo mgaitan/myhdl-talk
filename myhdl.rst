@@ -8,7 +8,7 @@ MyHDL, de Python al silicio
 | por Martín Gaitán 
 | 
 | PyDay Córdoba 2011
-| Córdoba, 30 de abril de 2010
+| https://github.com/nqnwebs/myhdl-talk
 
 
 El desafío
@@ -18,8 +18,11 @@ El desafío
 
    * Gente que sabe de hardware pero no sabe Python (mis cumpas)
    * Gente que sabe de Python (mucho!) pero no de hardware
-   * Yo, que no sé casi nada de nada
-   * En una charla de 30 minutos 
+   * Yo, que sólo sé que no sé nada
+   * En una charla de 25 minutos 
+
+     .. image::  img/miedo.jpg
+        :align: center
     
 A modo de intro: Dónde estamos?
 *******************************
@@ -29,11 +32,11 @@ A modo de intro: Dónde estamos?
 
 .. class:: incremental
 
-* Arduino > uControladores > microprocesadores... 
-    
-    * Funcionamiento y prestaciones predefinidas. 
-    * Arduino: se programa sobre un uC que tiene un core. 
-    * ASM es un lenguaje de "alto nivel"!
+* ``programar HW != diseñar HW`` 
+  
+    * Hw con Funcionamiento y prestaciones predefinidas. 
+    * Ejemplo: Arduino se programa sobre un uC que tiene un firmware.  
+    * Desde el diseño el ASM es un lenguaje de "alto nivel"!
 
 * Pero... ¿cómo se **diseña** un micro? 
 
@@ -44,8 +47,12 @@ A modo de intro: Dónde estamos?
 Software? No era hardware?
 **************************
 
-- Hardware programable, FPGAs : Field **Programmable** Gates Array
-    
+.. class::  incremental
+
+* FPGAs : Field **Programmable** Gates Array
+  
+  * Hardware "metaprogramable", 
+  
   .. epigraph:: 
 
      El camaleón mamá,
@@ -55,8 +62,6 @@ Software? No era hardware?
 
      --  Chico Novarro
 
-.. class::  incremental
-
 * Originalmente sólo para prototipar. 
     
     * Ahora son baratos, se usan en producción!
@@ -64,6 +69,21 @@ Software? No era hardware?
 * >> escala, se fabrican chips `ASIC (Application-specific integrated circuit)`
     
     * con (casi) el mismo HDL!
+
+La burocracia del Hardware
+***************************
+
+.. image:: img/flow.jpg
+   :align: center
+
+Un workflow más pythonico
+***************************
+
+.. image:: img/flow.jpg
+   :align: center
+
+
+
 
 Y qué corno es MyHDL ?
 ***********************
@@ -122,8 +142,8 @@ Myhdl's way
 - Python es dinámico ;-)
 - *Simple is better than complex*!
 
-Facherazo, pero explicalo
-**************************
+Ok, pero explicalo
+***********************
 
 .. class:: incremental
 
@@ -237,6 +257,18 @@ Conclusiones
 - Le debo mi última materia: hice un procesador MIPS en 3 semanas
 
     https://github.com/nqnwebs/pymips
+
+Preguntas ?
+************
+
+.. code-block:: python
+
+    for p in preguntas:
+        try:
+            responder(p)
+        except NiPutaIdea:
+            sonreir_y_hacerse_el_gil()
+
 
 La hora referí
 **************

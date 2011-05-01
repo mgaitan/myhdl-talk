@@ -38,10 +38,12 @@ def testBench():
  
     @instance
     def stimulus():
+        header =  "%-6s|%-6s|%-6s|%-6s|%-6s" % ('time', 'I0', 'I1', 'S', 'O')
+        print header + '\n' + '-' * len(header)
         while True:
             S.next = intbv(random.randint(0, 1))[1:]
             I0.next, I1.next = [intbv(random.randint(0, 255))[32:] for i in range(2)]
-            print "%s: Inputs: %i %i | S: %i | Output: %i" % (now(), I0, I1, S, O)
+            print "%-6s|%-6s|%-6s|%-6s|%-6s" % (now(), I0, I1, S, O)
             yield delay(5)
 
     return mux_inst, stimulus

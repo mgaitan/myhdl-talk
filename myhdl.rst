@@ -19,7 +19,7 @@ El desafío
    * Gente que sabe de hardware pero no sabe Python (mis cumpas)
    * Gente que sabe de Python (mucho!) pero no de hardware
    * Yo, que sólo sé que no sé nada
-   * En una charla de 25 minutos 
+   * En una charla de 30 minutos 
 
      .. image::  img/miedo.jpg
         :align: center
@@ -294,6 +294,7 @@ Pero mejor es hacer test de verdad!
             yield delay(1)
             Simulation( self.mux_inst )
             self.assertEqual(self.channels[1].val, self.O.val)  
+
 
 
 Convirtiendo pa'sintetizar

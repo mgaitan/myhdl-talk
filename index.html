@@ -309,7 +309,7 @@ Y simulemos!    </h1>
 <section>
 <hgroup>
     <h1>
-Pero se verifica con prints?    </h1>
+Entonces se verifica con prints?    </h1>
 </hgroup>
 <ul class="simple">
 <li>Un print sofisticado: generar formas de onda (<em>.vcd</em>)</li>
@@ -333,7 +333,24 @@ Pero mejor es hacer test de verdad!    </h1>
 <ul class="simple">
 <li><tt class="docutils literal">unittest</tt> querido, el pueblo está contigo</li>
 </ul>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">test</span><span class="p">()</span> <span class="c">#Ipython</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MuxTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="mf">255</span><span class="p">))[</span><span class="mf">32</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">2</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">O</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mf">0</span><span class="p">)[</span><span class="mf">32</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mux_inst</span> <span class="o">=</span> <span class="n">mux</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">O</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="mf">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">test_starts_in_channel_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+        <span class="n">Simulation</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">mux_inst</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">O</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_channel_1_when_select_is_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+        <span class="n">Simulation</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">mux_inst</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">O</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
 </pre></div>
   </section>
 
